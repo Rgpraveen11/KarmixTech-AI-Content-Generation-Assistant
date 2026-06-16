@@ -135,28 +135,35 @@ export default function ContentGenerator() {
     setError("");
 
     try {
-      const text = `
-CONTENT GENERATED USING PROMPT ENGINEERING
+  const response = await fetch(
+  "https://api.groq.com/openai/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "llama3-8b-8192",
+      messages: [
+        {
+          role: "system",
+          content: system,
+        },
+        {
+          role: "user",
+          content: user,
+        },
+      ],
+    }),
+  }
+);
 
-Topic: ${values.topic || "Artificial Intelligence"}
+const data = await response.json();
 
-Audience: ${values.audience || "Students"}
-
-Tone: ${values.tone || "Informative"}
-
-Generated Content:
-
-Artificial Intelligence is transforming education by providing personalized learning experiences, automated feedback, and intelligent tutoring systems.
-
-Benefits:
-- Personalized learning
-- Faster assessment
-- Better student engagement
-- Improved accessibility
-
-Conclusion:
-AI can help teachers and students achieve better educational outcomes when used responsibly.
-`;
+const text =
+  data.choices?.[0]?.message?.content ||
+  "No content generated.";
 setOutput(text);
 setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
       setOutput(text);
