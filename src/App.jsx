@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 // ─── DATA: Content types with their form fields ───────────────────────────────
 const CONTENT_TYPES = [
@@ -321,10 +322,13 @@ setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth" }), 100)
                 }}>Clear</button>
               </div>
             </div>
-            <div style={{ padding:"24px", whiteSpace:"pre-wrap", fontSize:14,
+            <div style={{ padding:"24px",fontSize:14,
                           lineHeight:1.75, color:"#d8d4ec",
                           maxHeight:520, overflowY:"auto" }}>
-              {output}
+                            <ReactMarkdown>
+                              {output}
+                            </ReactMarkdown>
+              
             </div>
           </div>
         )}
