@@ -160,7 +160,7 @@ export default function ContentGenerator() {
 );
 
 const data = await response.json();
-
+console.log(data);
 const text =
   data.choices?.[0]?.message?.content ||
   "No content generated.";
